@@ -201,6 +201,81 @@ function verifyAdmin(req, res, next) {
   }
 }
 
+// User Registration (for testing/initial setup)
+router.post("/register", async (req, res) => {
+  const { username, password, email, full_name, role } = req.body;
+
+  if (!username || !password) {
+    return res.status(400).json({ error: "Username and password are required" });
+  }
+
+  try {
+    // Check if user already exists
+    let existingUser;
+    try {
+      existingUser = await UserModel.findByUsername(username);
+    } catch (dbError) {
+      const users = loadJSON(usersPath);
+      existingUser = users.find((u) => u.username === username);
+    }
+
+    if (existingUser) {
+      return res.status(409).json({ error: "Username already exists" });
+    }
+
+    // Create new user
+    const newUser = {
+      id: `user-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+      username,
+      password: hashPassword(password),
+      email: email || `${username}@example.com`,
+      full_name: full_name || username,
+      role: role || "student",
+      created_at: new Date().toISOString(),
+      last_login: null,
+    };
+
+    // Try database first
+    try {
+      const userId = await UserModel.create(newUser);
+      const user = await UserModel.findById(userId);
+      
+      const token = generateToken();
+      return res.status(201).json({
+        message: "User registered successfully",
+        token,
+        user: {
+          id: user.id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        },
+      });
+    } catch (dbError) {
+      console.log("Database error, using JSON file:", dbError.message);
+      // Fallback to JSON file
+      const users = loadJSON(usersPath);
+      users.push(newUser);
+      saveJSON(usersPath, users);
+
+      const token = generateToken();
+      return res.status(201).json({
+        message: "User registered successfully",
+        token,
+        user: {
+          id: newUser.id,
+          username: newUser.username,
+          email: newUser.email,
+          role: newUser.role,
+        },
+      });
+    }
+  } catch (error) {
+    console.error("Registration error:", error);
+    return res.status(500).json({ error: "Registration failed" });
+  }
+});
+
 // User Login
 router.post("/login", async (req, res) => {
   const { username, password } = req.body;
