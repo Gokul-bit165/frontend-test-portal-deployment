@@ -7,7 +7,7 @@ import GroupedSubmissionsList from '../components/GroupedSubmissionsList';
 import { clearAdminSession } from '../utils/session';
 
 // Use environment variable for API URL
-const API_BASE_URL = import.meta.env.VITE_API_URL || ${API_BASE_URL}';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);

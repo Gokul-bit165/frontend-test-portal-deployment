@@ -6,7 +6,7 @@ import { jwtDecode } from "jwt-decode";
 import { clearAdminSession, notifySessionChange } from "../utils/session";
 
 // Use environment variable for API URL
-const API_BASE_URL = import.meta.env.VITE_API_URL || ${API_BASE_URL}';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export default function Login({ isAdmin = false, onLogin }) {
   const navigate = useNavigate();
