@@ -49,7 +49,7 @@ export default function LevelResults() {
       // Check if level should be unlocked
       if (allPassed || avgScore >= 70) {
         // Mark level as complete and unlock next level
-        await axios.post(${API_BASE_URL}/users/complete-level', {
+        await axios.post(`${API_BASE_URL}/users/complete-level`, {
           userId,
           courseId,
           level: parseInt(level)

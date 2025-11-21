@@ -57,7 +57,7 @@ export default function LevelChallengeOld() {
 
   const loadLevelQuestions = async () => {
     try {
-      const response = await axios.get(${API_BASE_URL}/challenges/level-questions', {
+      const response = await axios.get(`${API_BASE_URL}/challenges/level-questions`, {
         params: {
           userId,
           courseId,
@@ -102,7 +102,7 @@ export default function LevelChallengeOld() {
 
   const createTestSession = async () => {
     try {
-      const response = await axios.post(${API_BASE_URL}/test-sessions', {
+      const response = await axios.post(`${API_BASE_URL}/test-sessions`, {
         user_id: userId,
         course_id: courseId,
         level: parseInt(level, 10)
@@ -338,7 +338,7 @@ export default function LevelChallengeOld() {
 
     try {
       setEvaluationStep('Creating submission...');
-      const submitResponse = await axios.post(${API_BASE_URL}/submissions', {
+      const submitResponse = await axios.post(`${API_BASE_URL}/submissions`, {
         challengeId: questionId,
         candidateName: userId,
         code: {
@@ -356,7 +356,7 @@ export default function LevelChallengeOld() {
       await new Promise(resolve => setTimeout(resolve, 500));
       setEvaluationStep('Comparing with expected solution...');
 
-      const evalResponse = await axios.post(${API_BASE_URL}/evaluate', {
+      const evalResponse = await axios.post(`${API_BASE_URL}/evaluate`, {
         submissionId
       });
 

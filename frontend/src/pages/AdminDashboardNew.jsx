@@ -165,7 +165,7 @@ export default function AdminDashboard() {
   const loadUsers = async () => {
     try {
       const token = localStorage.getItem('adminToken');
-      const res = await axios.get(${API_BASE_URL}/users', {
+      const res = await axios.get(`${API_BASE_URL}/users`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setUsers(res.data || []);
@@ -178,7 +178,7 @@ export default function AdminDashboard() {
   const loadSubmissions = async () => {
     try {
       if (submissionViewMode === 'grouped') {
-        const res = await axios.get(${API_BASE_URL}/admin/submissions/grouped');
+        const res = await axios.get(`${API_BASE_URL}/admin/submissions/grouped`);
         setGroupedSessions(res.data || []);
         
         // Calculate stats from sessions
@@ -188,7 +188,7 @@ export default function AdminDashboard() {
         });
         setStats(prev => ({ ...prev, totalSubmissions }));
       } else {
-        const res = await axios.get(${API_BASE_URL}/submissions');
+        const res = await axios.get(`${API_BASE_URL}/submissions`);
         setSubmissions(res.data || []);
         setStats(prev => ({ ...prev, totalSubmissions: res.data?.length || 0 }));
       }
@@ -560,7 +560,7 @@ export default function AdminDashboard() {
 
   const loadCourses = async () => {
     try {
-      const res = await axios.get(${API_BASE_URL}/courses');
+      const res = await axios.get(`${API_BASE_URL}/courses`);
       setCourses(res.data || []);
       setStats(prev => ({ ...prev, totalCourses: res.data?.length || 0 }));
     } catch (error) {
@@ -578,7 +578,7 @@ export default function AdminDashboard() {
 
   const loadChallenges = async () => {
     try {
-      const res = await axios.get(${API_BASE_URL}/challenges');
+      const res = await axios.get(`${API_BASE_URL}/challenges`);
       setChallenges(res.data || []);
       setStats(prev => ({ ...prev, totalChallenges: res.data?.length || 0 }));
     } catch (error) {
@@ -588,7 +588,7 @@ export default function AdminDashboard() {
 
   const loadAssets = async () => {
     try {
-      const res = await axios.get(${API_BASE_URL}/assets');
+      const res = await axios.get(`${API_BASE_URL}/assets`);
       setAssets(res.data || []);
     } catch (error) {
       console.error('Failed to load assets:', error);
@@ -606,7 +606,7 @@ export default function AdminDashboard() {
         formData.append('asset', file);
         formData.append('category', 'general'); // Can be changed to dropdown value
 
-        await axios.post(${API_BASE_URL}/assets/upload', formData, {
+        await axios.post(`${API_BASE_URL}/assets/upload`, formData, {
           headers: { 'Content-Type': 'multipart/form-data' }
         });
       }
@@ -722,7 +722,7 @@ export default function AdminDashboard() {
     }
 
     try {
-      const response = await axios.post(${API_BASE_URL}/ai/generate-question', payload, {
+      const response = await axios.post(`${API_BASE_URL}/ai/generate-question`, payload, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
       setAiGeneratedQuestion(response.data);
@@ -833,7 +833,7 @@ export default function AdminDashboard() {
       if (editingCourse?.id) {
         await axios.put(`/courses/${editingCourse.id}`, courseData);
       } else {
-        await axios.post(${API_BASE_URL}/courses', courseData);
+        await axios.post(`${API_BASE_URL}/courses`, courseData);
       }
       await loadCourses();
       setShowCourseModal(false);
@@ -860,7 +860,7 @@ export default function AdminDashboard() {
       if (editingChallenge?.id) {
         await axios.put(`/challenges/${editingChallenge.id}`, challengeData);
       } else {
-        await axios.post(${API_BASE_URL}/challenges', challengeData);
+        await axios.post(`${API_BASE_URL}/challenges`, challengeData);
       }
       await loadChallenges();
       setShowChallengeModal(false);

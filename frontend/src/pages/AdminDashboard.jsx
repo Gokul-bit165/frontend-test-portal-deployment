@@ -28,7 +28,7 @@ export default function AdminDashboard() {
   const loadGroupedSubmissions = async () => {
     try {
       setLoading(true);
-      const response = await axios.get(${API_BASE_URL}/admin/submissions/grouped');
+      const response = await axios.get(`${API_BASE_URL}/admin/submissions/grouped`);
       const sessions = response.data;
       setGroupedSessions(sessions);
       

@@ -151,7 +151,7 @@ export default function LevelChallengeNew() {
 
   const createTestSession = async () => {
     try {
-      const response = await axios.post(${API_BASE_URL}/test-sessions', {
+      const response = await axios.post(`${API_BASE_URL}/test-sessions`, {
         user_id: userId,
         course_id: courseId,
         level: parseInt(level)
@@ -221,7 +221,7 @@ export default function LevelChallengeNew() {
     setEvaluating(true);
 
     try {
-      const response = await axios.post(${API_BASE_URL}/evaluate', {
+      const response = await axios.post(`${API_BASE_URL}/evaluate`, {
         userId,
         challengeId: questionId,
         candidateCode: {

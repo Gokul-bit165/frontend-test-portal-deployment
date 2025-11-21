@@ -109,7 +109,7 @@ export default function LevelChallenge() {
 
   const createTestSession = async () => {
     try {
-      const response = await axios.post(${API_BASE_URL}/test-sessions', {
+      const response = await axios.post(`${API_BASE_URL}/test-sessions`, {
         user_id: userId,
         course_id: courseId,
         level: parseInt(level)
@@ -337,7 +337,7 @@ export default function LevelChallenge() {
     try {
       // Step 1: Create submission
       setEvaluationStep('Creating submission...');
-      const submitResponse = await axios.post(${API_BASE_URL}/submissions', {
+      const submitResponse = await axios.post(`${API_BASE_URL}/submissions`, {
         challengeId: questionId,
         candidateName: userId,
         code: {
@@ -358,7 +358,7 @@ export default function LevelChallenge() {
       setEvaluationStep('Comparing with expected solution...');
       
       // Step 2: Evaluate submission
-      const evalResponse = await axios.post(${API_BASE_URL}/evaluate', {
+      const evalResponse = await axios.post(`${API_BASE_URL}/evaluate`, {
         submissionId: submissionId
       });
 
@@ -481,7 +481,7 @@ export default function LevelChallenge() {
       };
 
       // Save to backend
-      await axios.post(${API_BASE_URL}/level-completion', completionData);
+      await axios.post(`${API_BASE_URL}/level-completion`, completionData);
 
       // Close modal and navigate
       setShowFinishModal(false);
