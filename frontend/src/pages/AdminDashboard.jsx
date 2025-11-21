@@ -6,6 +6,9 @@ import SubmissionList from '../components/SubmissionList';
 import GroupedSubmissionsList from '../components/GroupedSubmissionsList';
 import { clearAdminSession } from '../utils/session';
 
+// Use environment variable for API URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || ${API_BASE_URL}';
+
 export default function AdminDashboard() {
   const [submissions, setSubmissions] = useState([]);
   const [groupedSessions, setGroupedSessions] = useState([]);
@@ -25,7 +28,7 @@ export default function AdminDashboard() {
   const loadGroupedSubmissions = async () => {
     try {
       setLoading(true);
-      const response = await axios.get('http://localhost:5000/api/admin/submissions/grouped');
+      const response = await axios.get(${API_BASE_URL}/admin/submissions/grouped');
       const sessions = response.data;
       setGroupedSessions(sessions);
       

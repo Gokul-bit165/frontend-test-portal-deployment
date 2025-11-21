@@ -1,9 +1,11 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import CodeEditor from '../components/CodeEditor';
 import PreviewFrame from '../components/PreviewFrame';
 import ResultsPanel from '../components/ResultsPanel';
 import axios from 'axios';
+
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 export default function LevelChallengeNew() {
   const { courseId, level } = useParams();
@@ -109,7 +111,7 @@ export default function LevelChallengeNew() {
   const loadLevelQuestions = async () => {
     try {
       // Use course-based endpoint which assigns 2 random questions per user/level
-      const response = await axios.get(`http://localhost:5000/api/courses/${courseId}/levels/${level}/questions`, {
+      const response = await axios.get(`/courses/${courseId}/levels/${level}/questions`, {
         params: { userId }
       });
 
@@ -149,7 +151,7 @@ export default function LevelChallengeNew() {
 
   const createTestSession = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/test-sessions', {
+      const response = await axios.post(${API_BASE_URL}/test-sessions', {
         user_id: userId,
         course_id: courseId,
         level: parseInt(level)
@@ -189,7 +191,7 @@ export default function LevelChallengeNew() {
     const questionId = assignedQuestions[currentQuestionIndex].id;
     
     try {
-      const response = await axios.get(`http://localhost:5000/api/challenges/${questionId}`);
+      const response = await axios.get(`/challenges/${questionId}`);
       setCurrentQuestion(response.data);
       setError(null);
     } catch (error) {
@@ -219,7 +221,7 @@ export default function LevelChallengeNew() {
     setEvaluating(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/evaluate', {
+      const response = await axios.post(${API_BASE_URL}/evaluate', {
         userId,
         challengeId: questionId,
         candidateCode: {
@@ -243,7 +245,7 @@ export default function LevelChallengeNew() {
       // Add submission to test session
       if (testSessionId && result.submissionId) {
         try {
-          await axios.post(`http://localhost:5000/api/test-sessions/${testSessionId}/submissions`, {
+          await axios.post(`/test-sessions/${testSessionId}/submissions`, {
             submission_id: result.submissionId
           });
           console.log('Added submission to test session');
@@ -475,7 +477,7 @@ export default function LevelChallengeNew() {
                         <div key={index} className="flex items-center gap-2 text-sm">
                           <span className="text-gray-500">📄</span>
                           <a 
-                            href={`http://localhost:5000/${asset}`} 
+                            href={`/${asset}`} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             className="text-blue-600 hover:underline"

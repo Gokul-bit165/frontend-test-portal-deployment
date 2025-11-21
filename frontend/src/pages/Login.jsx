@@ -5,6 +5,9 @@ import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
 import { clearAdminSession, notifySessionChange } from "../utils/session";
 
+// Use environment variable for API URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || ${API_BASE_URL}';
+
 export default function Login({ isAdmin = false, onLogin }) {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
@@ -25,8 +28,8 @@ export default function Login({ isAdmin = false, onLogin }) {
     setLoading(true);
 
     try {
-      const adminEndpoint = "http://localhost:5000/api/auth/admin/login";
-      const userEndpoint = "http://localhost:5000/api/auth/login";
+      const adminEndpoint = `${API_BASE_URL}/auth/admin/login`;
+      const userEndpoint = `${API_BASE_URL}/auth/login`;
       const endpoints = isAdmin
         ? [adminEndpoint, userEndpoint]
         : [userEndpoint, adminEndpoint];
@@ -210,7 +213,7 @@ export default function Login({ isAdmin = false, onLogin }) {
                     console.log("Google user:", decoded);
 
                     const res = await axios.post(
-                      "http://localhost:5000/api/auth/google",
+                      `${API_BASE_URL}/auth/google`,
                       { token: googleToken }
                     );
 

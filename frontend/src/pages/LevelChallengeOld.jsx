@@ -5,6 +5,8 @@ import CodeEditor from '../components/CodeEditor';
 import PreviewFrame from '../components/PreviewFrame';
 import ResultsPanel from '../components/ResultsPanel';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 export default function LevelChallengeOld() {
   const { courseId, level } = useParams();
   const navigate = useNavigate();
@@ -55,7 +57,7 @@ export default function LevelChallengeOld() {
 
   const loadLevelQuestions = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/challenges/level-questions', {
+      const response = await axios.get(${API_BASE_URL}/challenges/level-questions', {
         params: {
           userId,
           courseId,
@@ -100,7 +102,7 @@ export default function LevelChallengeOld() {
 
   const createTestSession = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/test-sessions', {
+      const response = await axios.post(${API_BASE_URL}/test-sessions', {
         user_id: userId,
         course_id: courseId,
         level: parseInt(level, 10)
@@ -127,7 +129,7 @@ export default function LevelChallengeOld() {
     const questionId = assignedQuestions[currentQuestionIndex].id;
 
     try {
-      const response = await axios.get(`http://localhost:5000/api/challenges/${questionId}`);
+      const response = await axios.get(`/challenges/${questionId}`);
       const challengeData = response.data;
       setChallenge(challengeData);
 
@@ -146,7 +148,7 @@ export default function LevelChallengeOld() {
 
   const loadRestrictions = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/courses/${courseId}/restrictions`);
+      const response = await axios.get(`/courses/${courseId}/restrictions`);
       if (response.data) {
         setRestrictions(response.data);
         if (response.data.timeLimit > 0) {
@@ -336,7 +338,7 @@ export default function LevelChallengeOld() {
 
     try {
       setEvaluationStep('Creating submission...');
-      const submitResponse = await axios.post('http://localhost:5000/api/submissions', {
+      const submitResponse = await axios.post(${API_BASE_URL}/submissions', {
         challengeId: questionId,
         candidateName: userId,
         code: {
@@ -354,7 +356,7 @@ export default function LevelChallengeOld() {
       await new Promise(resolve => setTimeout(resolve, 500));
       setEvaluationStep('Comparing with expected solution...');
 
-      const evalResponse = await axios.post('http://localhost:5000/api/evaluate', {
+      const evalResponse = await axios.post(${API_BASE_URL}/evaluate', {
         submissionId
       });
 
@@ -374,7 +376,7 @@ export default function LevelChallengeOld() {
 
       if (testSessionId && submissionId) {
         try {
-          await axios.post(`http://localhost:5000/api/test-sessions/${testSessionId}/submissions`, {
+          await axios.post(`/test-sessions/${testSessionId}/submissions`, {
             submission_id: submissionId
           });
         } catch (err) {
@@ -403,7 +405,7 @@ export default function LevelChallengeOld() {
         console.log('Completing test session:', testSessionId);
         
         // MUST wait for completion before navigating
-        await axios.put(`http://localhost:5000/api/test-sessions/${testSessionId}/complete`, {
+        await axios.put(`/test-sessions/${testSessionId}/complete`, {
           user_feedback: null
         });
         
@@ -595,7 +597,7 @@ export default function LevelChallengeOld() {
                     {challenge.assets.map((asset, index) => (
                       <div key={index} className="bg-white p-2 rounded border border-purple-100">
                         <a
-                          href={`http://localhost:5000/${asset}`}
+                          href={`/${asset}`}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-sm text-purple-700 hover:underline"

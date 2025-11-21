@@ -5,6 +5,8 @@ import PreviewFrame from '../components/PreviewFrame';
 import ResultsPanel from '../components/ResultsPanel';
 import axios from 'axios';
 
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+
 export default function LevelChallenge() {
   const { courseId, level } = useParams();
   const navigate = useNavigate();
@@ -59,7 +61,7 @@ export default function LevelChallenge() {
 
   const loadLevelQuestions = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/challenges/level-questions`, {
+      const response = await axios.get(`/challenges/level-questions`, {
         params: { 
           userId, 
           courseId, 
@@ -107,7 +109,7 @@ export default function LevelChallenge() {
 
   const createTestSession = async () => {
     try {
-      const response = await axios.post('http://localhost:5000/api/test-sessions', {
+      const response = await axios.post(${API_BASE_URL}/test-sessions', {
         user_id: userId,
         course_id: courseId,
         level: parseInt(level)
@@ -137,7 +139,7 @@ export default function LevelChallenge() {
     const questionId = assignedQuestions[currentQuestionIndex].id;
     
     try {
-      const response = await axios.get(`http://localhost:5000/api/challenges/${questionId}`);
+      const response = await axios.get(`/challenges/${questionId}`);
       const challengeData = response.data;
       setChallenge(challengeData);
       
@@ -158,7 +160,7 @@ export default function LevelChallenge() {
   // Load restrictions from API
   const loadRestrictions = async () => {
     try {
-      const response = await axios.get(`http://localhost:5000/api/courses/${courseId}/restrictions`);
+      const response = await axios.get(`/courses/${courseId}/restrictions`);
       if (response.data) {
         setRestrictions(response.data);
         // Initialize timer if timeLimit is set
@@ -335,7 +337,7 @@ export default function LevelChallenge() {
     try {
       // Step 1: Create submission
       setEvaluationStep('Creating submission...');
-      const submitResponse = await axios.post('http://localhost:5000/api/submissions', {
+      const submitResponse = await axios.post(${API_BASE_URL}/submissions', {
         challengeId: questionId,
         candidateName: userId,
         code: {
@@ -356,7 +358,7 @@ export default function LevelChallenge() {
       setEvaluationStep('Comparing with expected solution...');
       
       // Step 2: Evaluate submission
-      const evalResponse = await axios.post('http://localhost:5000/api/evaluate', {
+      const evalResponse = await axios.post(${API_BASE_URL}/evaluate', {
         submissionId: submissionId
       });
 
@@ -378,7 +380,7 @@ export default function LevelChallenge() {
       // Add submission to test session
       if (testSessionId && submissionId) {
         try {
-          await axios.post(`http://localhost:5000/api/test-sessions/${testSessionId}/submissions`, {
+          await axios.post(`/test-sessions/${testSessionId}/submissions`, {
             submission_id: submissionId
           });
           console.log('Added submission to test session');
@@ -409,7 +411,7 @@ export default function LevelChallenge() {
         console.log('Completing test session:', testSessionId);
         
         // MUST wait for completion before navigating
-        await axios.put(`http://localhost:5000/api/test-sessions/${testSessionId}/complete`, {
+        await axios.put(`/test-sessions/${testSessionId}/complete`, {
           user_feedback: null
         });
         
@@ -479,7 +481,7 @@ export default function LevelChallenge() {
       };
 
       // Save to backend
-      await axios.post('http://localhost:5000/api/level-completion', completionData);
+      await axios.post(${API_BASE_URL}/level-completion', completionData);
 
       // Close modal and navigate
       setShowFinishModal(false);
@@ -680,7 +682,7 @@ export default function LevelChallenge() {
                   {challenge.assets.map((asset, index) => (
                     <div key={index} className="bg-white p-2 rounded border border-purple-100">
                       <a 
-                        href={`http://localhost:5000/${asset}`}
+                        href={`/${asset}`}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-sm text-purple-700 hover:underline"

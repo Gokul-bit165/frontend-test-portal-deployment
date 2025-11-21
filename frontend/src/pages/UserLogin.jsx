@@ -2,6 +2,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
+// Use environment variable for API URL
+const API_BASE_URL = import.meta.env.VITE_API_URL || ${API_BASE_URL}';
+
 export default function UserLogin() {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
@@ -17,7 +20,7 @@ export default function UserLogin() {
     setLoading(true);
 
     try {
-      const response = await axios.post('http://localhost:5000/api/auth/login', credentials);
+      const response = await axios.post(`${API_BASE_URL}/auth/login`, credentials);
       
       // Store user info
       localStorage.setItem('userId', response.data.user.id);
