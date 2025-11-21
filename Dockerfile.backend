@@ -1,24 +1,6 @@
-# --- Base Stage ---
-FROM node:18-alpine AS base
-WORKDIR /app
-
-# --- Frontend Build Stage ---
-FROM base AS frontend-builder
-WORKDIR /app/frontend
-COPY frontend/package*.json ./
-RUN npm install
-COPY frontend/ ./
-RUN npm run build
-
-# --- Backend Build Stage ---
-FROM base AS backend-builder
-WORKDIR /app
-COPY backend/package*.json ./
-RUN npm install
-COPY backend/ .
-
-# --- Final Production Stage ---
+# Backend-only Dockerfile for Render deployment
 FROM node:18-alpine
+
 WORKDIR /app
 
 # Install Chromium and dependencies for Puppeteer
@@ -34,7 +16,16 @@ RUN apk add --no-cache \
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-COPY --from=backend-builder /app .
-COPY --from=frontend-builder /app/frontend/dist ./frontend/dist
+# Copy package files and install dependencies
+COPY backend/package*.json ./
+RUN npm ci --only=production
+
+# Copy backend code
+COPY backend/ ./
+
+# Create data directory for JSON storage
+RUN mkdir -p data screenshots
+
 EXPOSE 5000
+
 CMD ["node", "server.js"]
