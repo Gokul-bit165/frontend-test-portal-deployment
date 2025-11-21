@@ -1,0 +1,50 @@
+# Netlify Configuration for Frontend
+# Free tier: 100GB bandwidth, 300 build minutes/month
+
+[build]
+  base = "frontend"
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# Redirect API calls to backend (set this after deploying backend)
+[[redirects]]
+  from = "/api/*"
+  to = "https://your-backend-url.onrender.com/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/assets/images/*"
+  to = "https://your-backend-url.onrender.com/assets/images/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/assets/courses/*"
+  to = "https://your-backend-url.onrender.com/assets/courses/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/assets/references/*"
+  to = "https://your-backend-url.onrender.com/assets/references/:splat"
+  status = 200
+
+[[redirects]]
+  from = "/screenshots/*"
+  to = "https://your-backend-url.onrender.com/screenshots/:splat"
+  status = 200
+
+# SPA fallback
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Frame-Options = "DENY"
+    X-Content-Type-Options = "nosniff"
+    Referrer-Policy = "no-referrer"

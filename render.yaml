@@ -1,0 +1,52 @@
+# Render.com Blueprint Configuration
+# This file defines your application infrastructure on Render
+# Free tier: 750 hours/month for web services, 100GB bandwidth
+
+services:
+  # Backend Service
+  - type: web
+    name: test-portal-backend
+    env: docker
+    dockerfilePath: ./Dockerfile.backend
+    region: singapore # or oregon, frankfurt - choose closest to your users
+    plan: free # Free tier with 512MB RAM, sleeps after 15min inactivity
+    branch: main
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 5000
+      - key: USE_JSON
+        value: true # Using JSON files instead of database for free tier
+      - key: JWT_SECRET
+        generateValue: true # Render auto-generates secure secret
+      - key: ALLOWED_ORIGINS
+        sync: false # Set manually in Render dashboard
+      - key: GOOGLE_CLIENT_ID
+        sync: false # Set manually in Render dashboard
+    # Persistent disk for data and screenshots (free tier: 1GB)
+    disk:
+      name: backend-data
+      mountPath: /app
+      sizeGB: 1
+
+  # Frontend Service
+  - type: web
+    name: test-portal-frontend
+    env: docker
+    dockerfilePath: ./Dockerfile.frontend
+    region: singapore # Same as backend
+    plan: free
+    branch: main
+    envVars:
+      - key: VITE_API_URL
+        value: https://test-portal-backend.onrender.com/api # Update with your backend URL
+      - key: VITE_GOOGLE_CLIENT_ID
+        sync: false # Set manually
+
+# Notes:
+# 1. Free tier sleeps after 15 minutes of inactivity (takes 50s to wake up)
+# 2. Upgrade to Starter ($7/month) for always-on service
+# 3. Set ALLOWED_ORIGINS in backend to include frontend URL
+# 4. Update VITE_API_URL after backend is deployed
