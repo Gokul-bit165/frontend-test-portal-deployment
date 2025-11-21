@@ -8,32 +8,34 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  VITE_API_URL = "https://test-portal-backend-22zx.onrender.com/api"
+  VITE_GOOGLE_CLIENT_ID = "563618874909-386bpe7ig2keme4o0gvc6arsp5mh2anu.apps.googleusercontent.com"
 
-# Redirect API calls to backend (set this after deploying backend)
+# Redirect API calls to backend
 [[redirects]]
   from = "/api/*"
-  to = "https://your-backend-url.onrender.com/api/:splat"
+  to = "https://test-portal-backend-22zx.onrender.com/api/:splat"
   status = 200
   force = true
 
 [[redirects]]
   from = "/assets/images/*"
-  to = "https://your-backend-url.onrender.com/assets/images/:splat"
+  to = "https://test-portal-backend-22zx.onrender.com/assets/images/:splat"
   status = 200
 
 [[redirects]]
   from = "/assets/courses/*"
-  to = "https://your-backend-url.onrender.com/assets/courses/:splat"
+  to = "https://test-portal-backend-22zx.onrender.com/assets/courses/:splat"
   status = 200
 
 [[redirects]]
   from = "/assets/references/*"
-  to = "https://your-backend-url.onrender.com/assets/references/:splat"
+  to = "https://test-portal-backend-22zx.onrender.com/assets/references/:splat"
   status = 200
 
 [[redirects]]
   from = "/screenshots/*"
-  to = "https://your-backend-url.onrender.com/screenshots/:splat"
+  to = "https://test-portal-backend-22zx.onrender.com/screenshots/:splat"
   status = 200
 
 # SPA fallback
