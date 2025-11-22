@@ -9,7 +9,7 @@
 [build.environment]
   NODE_VERSION = "18"
   VITE_API_URL = "https://test-portal-backend-22zx.onrender.com/api"
-  VITE_GOOGLE_CLIENT_ID = "563618874909-386bpe7ig2keme4o0gvc6arsp5mh2anu.apps.googleusercontent.com"
+  VITE_GOOGLE_CLIENT_ID = "220784090853-20rer9lasvcondnuh59lrb4mdmdfogng.apps.googleusercontent.com"
 
 # Redirect API calls to backend
 [[redirects]]
