@@ -16,12 +16,11 @@ RUN apk add --no-cache \
 ENV PUPPETEER_SKIP_CHROMIUM_DOWNLOAD=true \
     PUPPETEER_EXECUTABLE_PATH=/usr/bin/chromium-browser
 
-# Copy package files and install dependencies
-COPY backend/package*.json ./
-RUN npm install --omit=dev
-
-# Copy backend code
+# Copy all backend source code, including data files
 COPY backend/ ./
+
+# Install dependencies from the copied package.json
+RUN npm install --omit=dev
 
 # Create data directory for JSON storage
 RUN mkdir -p data screenshots
