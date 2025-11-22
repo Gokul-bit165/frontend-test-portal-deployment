@@ -1,0 +1,53 @@
+[
+  {
+    "key": "test-user-course-html-css-1",
+    "userId": "test-user",
+    "courseId": "course-html-css",
+    "level": 1,
+    "assignedQuestions": [
+      "course-html-css-l1-q4",
+      "course-html-css-l1-q5"
+    ],
+    "completedQuestions": [],
+    "assignedAt": "2025-11-21T06:02:09.065Z",
+    "totalAvailable": 7
+  },
+  {
+    "key": "default-user-course-fullstack-1",
+    "userId": "default-user",
+    "courseId": "course-fullstack",
+    "level": 1,
+    "assignedQuestions": [
+      "fullstack-l1-q1"
+    ],
+    "completedQuestions": [],
+    "assignedAt": "2025-11-21T06:55:42.069Z",
+    "totalAvailable": 1
+  },
+  {
+    "key": "user-admin-1-course-html-css-1",
+    "userId": "user-admin-1",
+    "courseId": "course-html-css",
+    "level": 1,
+    "assignedQuestions": [
+      "html-css-l1-q2",
+      "course-html-css-l1-q5"
+    ],
+    "completedQuestions": [],
+    "assignedAt": "2025-11-21T07:09:05.923Z",
+    "totalAvailable": 6
+  },
+  {
+    "key": "user-1763624344870-riq16a0rp-course-html-css-1",
+    "userId": "user-1763624344870-riq16a0rp",
+    "courseId": "course-html-css",
+    "level": 1,
+    "assignedQuestions": [
+      "course-html-css-l1-q4",
+      "course-html-css-l1-q5"
+    ],
+    "completedQuestions": [],
+    "assignedAt": "2025-11-21T08:22:28.615Z",
+    "totalAvailable": 6
+  }
+]
