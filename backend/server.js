@@ -84,9 +84,13 @@ const corsOptions = {
       origin.startsWith('http://127.0.0.1') ||
       origin.startsWith('https://127.0.0.1');
 
+    // Allow Netlify deploy previews (pattern: https://*--stately-narwhal-2dc0b7.netlify.app)
+    const isNetlifyPreview = origin.includes('--stately-narwhal-2dc0b7.netlify.app');
+
     if (
       allowedOrigins.indexOf(origin) !== -1 ||
       isLocalhostOrigin ||
+      isNetlifyPreview ||
       process.env.NODE_ENV !== 'production'
     ) {
       callback(null, true);
