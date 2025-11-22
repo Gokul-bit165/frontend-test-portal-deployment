@@ -47,5 +47,12 @@ docker-compose.override.yml
 
 # Sensitive data
 backend/data/users.json
-backend/data/*.json
+!backend/data/assets-metadata.json
+!backend/data/challenges-new.json
+!backend/data/challenges-restore.json
+!backend/data/challenges.json
+!backend/data/courses.json
+!backend/data/submissions.json
+!backend/data/user-assignments.json
+!backend/data/user-progress.json
 !backend/data/.gitkeep
